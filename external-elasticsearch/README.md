@@ -31,7 +31,34 @@ If the Konvoy cluster has already been deployed and these Fluent Bit changes are
   konvoy deploy addons -y
 ```
 
-In the external Elasicsearch environment, confirm that logs from Konvoy are now being ingested there. A quick way to confirm this is to filter a search by a hostname or pod ID from the source Konvoy cluster. This should return search results and demonstrate that logs from Konvoy are being forwarded to the external Elasticsearch environment. A good example is to check that etcd logs from a Konvoy master host are being written to the Elasticsearch. Here's an example:
+You can confirm the config changes by viewing the ConfigMap used for Fluent Bit:
+
+```bash
+  kubectl describe cm --namespace kubeaddons fluentbit-kubeaddons-fluent-bit-config
+```
+
+Describing the ConfigMap will display the standard Fluent Bit configuration format explained here: https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
+
+Look for the Fluent Bit OUTPUT entry under "fluent-bit-output.conf" and confirm the Host setting has been overridden with the desired Elasticsearch backend.
+
+```bash
+fluent-bit-output.conf:
+----
+
+[OUTPUT]
+    Name  es
+    Match *
+    Host external-elasticsearch.example.com
+    Port  9200
+    Logstash_Format On
+    Retry_Limit False
+    Type  flb_type
+    Time_Key @ts
+    Replace_Dots On
+    Logstash_Prefix kubernetes_cluster
+```
+
+In the external Elasicsearch environment, confirm that logs from Konvoy are now being ingested there. A quick way to confirm this is to filter a search by a hostname or pod ID from the source Konvoy cluster. This should return search results and demonstrate that logs from Konvoy are being forwarded to the external Elasticsearch environment. A good example is to check that etcd logs from a Konvoy master host are being sent to Elasticsearch. Here's an example:
 
 ```bash
   kubernetes.pod_name: "etcd" AND kubernetes.host: "konvoy-master-1.example.com"
