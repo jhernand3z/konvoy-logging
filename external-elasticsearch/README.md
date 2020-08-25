@@ -103,3 +103,10 @@ You can also verify that logs are being ingested under a new Elasticsearch index
 
 This should list the indices stored in Elasticsearch. You should see a new index created for konvoy-prod-source-YYYY.MM.DD. This confirms that logs are being ingested and the preferred index pattern is being used.
 
+```bash
+health status index                             uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   .kibana_1                         Fxf2YYYXRqKUCH6NjPDwRw   1   1          9            0     42.7kb         21.3kb
+green  open   konvoy-prod-source-2020.08.25     gw_jMyX3RQWqFzcPJy8MUQ   5   1     127709            0    150.1mb         75.3mb
+green  open   my-index-000001                   5BXP8b-LThaDWAS2GKrxdg   5   1     250518            0    334.4mb        168.6mb
+green  open   my-index-000002                   nYFWZEO7TUiOjLQXBaYJpA   5   1       1200            0     88.1kb         44.5kb
+```
