@@ -1,6 +1,6 @@
 # Konvoy logging with external elasticsearch
 
-Konvoy provides a cluster-level logging solution consisting of three primary addons. These compnents are automatically configured to work together and do not require anything else to get up and running.
+Konvoy provides a cluster-level logging solution consisting of three primary addons. These logging components are automatically configured to work together and normally do not require any additional setup to get up and running.
 
 - Fluent Bit: Log forwarding
 - Elasticsearch: Log storage and searching
